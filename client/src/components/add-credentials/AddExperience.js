@@ -4,6 +4,7 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { addExperience } from '../../store/actions/profileActions';
 
 
 
@@ -24,10 +25,27 @@ class AddExperience extends Component {
 
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.errors) {
+            this.setState({ errors: nextProps.errors})
+        }
+    }
+
     onSubmit = e => {
         e.preventDefault();
 
-        console.log('add experience submit');
+        const expData = {
+            company: this.state.company,
+            title: this.state.title,
+            location: this.state.location,
+            from: this.state.from,
+            to: this.state.to,
+            current: this.state.current,
+            description: this.state.description
+
+        };
+
+        this.props.addExperience(expData, this.props.history);
     }
 
 
@@ -36,7 +54,6 @@ class AddExperience extends Component {
       };
 
     onCheck = e => {
-        //this.setState({ [e.target.checked]: e.target.value });
         this.setState ({
             //disabled: !this.state.disabled,
             current: !this.state.current
@@ -80,7 +97,7 @@ class AddExperience extends Component {
                 <TextFieldGroup
                     placeholder="Location"
                     name="location"
-                    value={this.state.locatio }
+                    value={this.state.location }
                     onChange={this.onChange}
                     error={errors.location}
                 />
@@ -140,7 +157,8 @@ class AddExperience extends Component {
 
 AddExperience.propTypes = {
     profile: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+    errors: PropTypes.object.isRequired,
+    addExperience: PropTypes.func.isRequired
 }
 
 
@@ -150,4 +168,4 @@ const mapStateToProps = state => ({
 
 })
 
-export default connect(mapStateToProps, {})(withRouter(AddExperience));
+export default connect(mapStateToProps, { addExperience })(withRouter(AddExperience));

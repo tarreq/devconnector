@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { getCurrentProfile, deleteAccount } from "../../store/actions/profileActions";
 import Spinner from '../common/Spinner' ;
 import ProfileActions from './ProfileActions';
+import Experience from './Experience';
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -32,7 +33,7 @@ class Dashboard extends Component {
             { user.name }</Link>
             </p>
             <ProfileActions />
-            {/* TODO: exp and edu */}
+            <Experience experience={profile.experience} />
             <div style={{ marginBottom: '60px'}} />
             <button onClick={this.onDeleteClick} className="btn btn-danger">Delete My Account</button>
           </div>
